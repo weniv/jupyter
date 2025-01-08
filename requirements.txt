@@ -43,3 +43,6 @@ ipyleaflet
 # Python: plotting libraries (optional)
 plotly>=5,<6
 bqplot
+
+# pandas
+pyarrow>=14.0.1
