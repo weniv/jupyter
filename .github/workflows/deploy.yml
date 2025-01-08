@@ -28,15 +28,10 @@ jobs:
           # dist 디렉토리 구조 확인
           echo "Checking dist directory structure:"
           find dist -name "index.html"
-          # 각 index.html 파일 내용의 처음 몇 줄 확인
-          for f in $(find dist -name "index.html"); do
-            echo "Content of $f:"
-            head -n 10 "$f"
-            echo "-------------------"
-          done
-          # dist/index.html 파일에 analytics script 추가
-          find dist -name "index.html" -exec sed -i '/<head>/a \
-          <script>\
+          # 루트 index.html과 lab/index.html 수정 (실제 진입점)
+          for f in "dist/index.html" "dist/lab/index.html"; do
+            sed -i '/<head>/a \
+            <script>\
               function collectPageView() {\
                   const this_page_url = window.location.href;\
                   let session_id = sessionStorage.getItem("session_id");\
@@ -97,7 +92,8 @@ jobs:
                       anchor.addEventListener("click", (event) => collectAnchorClick(event, `교육서비스:${anchor.innerText}`));\
                   });\
               });\
-          </script>' dist/index.html
+            </script>' "$f"
+          done
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
