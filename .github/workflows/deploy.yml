@@ -98,14 +98,14 @@ jobs:
               <meta property="og:type" content="website">\
               <meta property="og:title" content="Weniv JupyterLite | 위니브 주피터노트북">\
               <meta property="og:description" content="손쉽게 교육 환경을 구축하세요.">\
-              <meta property="og:image" content="https://canvas.weniv.co.kr/og-image.png">\
+              <meta property="og:image" content="https://weniv.co.kr/images/OG/service/weniv-jupyter.png">\
               <meta property="og:url" content="https://jupyter.weniv.co.kr">\
               <meta property="og:site_name" content="Weniv JupyterLite">\
               <!-- Twitter 카드 -->\
               <meta name="twitter:card" content="summary_large_image">\
               <meta name="twitter:title" content="위니브 주피터노트북 - 로그인 없는 Python, JavaScript 실행">\
               <meta name="twitter:description" content="손쉽게 학습 환경을 구축하세요">\
-              <meta name="twitter:image" content="https://canvas.weniv.co.kr/og-image.png">\
+              <meta name="twitter:image" content="https://weniv.co.kr/images/OG/service/weniv-jupyter.png">\
               <!-- 추가 메타 태그 -->\
               <meta name="keywords" content="위니브, weniv, 주피터, 주피터노트북, jupyter">\
               <meta name="author" content="Weniv">\
