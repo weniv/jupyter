@@ -30,69 +30,94 @@ jobs:
           find dist -name "index.html"
           # 루트 index.html과 lab/index.html 수정 (실제 진입점)
           for f in "dist/index.html" "dist/lab/index.html"; do
+            # Analytics 스크립트 추가
             sed -i '/<head>/a \
-            <script>\
-              function collectPageView() {\
-                  const this_page_url = window.location.href;\
-                  let session_id = sessionStorage.getItem("session_id");\
-                  if (!session_id) {\
-                      fetch("https://www.analytics.weniv.co.kr/collect/pageview", {\
-                          method: "POST",\
-                          headers: {\
-                              "Content-Type": "application/json",\
-                          },\
-                          body: JSON.stringify({ url: this_page_url }),\
-                      })\
-                          .then((response) => {\
-                              if (!response.ok) {\
-                                  throw new Error("Network response was not ok");\
-                              }\
-                              return response.json();\
-                          })\
-                          .then((data) => {\
-                              sessionStorage.setItem("session_id", data.session_id);\
-                          })\
-                          .catch((error) => console.error("Error:", error));\
-                  }\
-              }\
-              window.addEventListener("load", (e) => {\
-                  const lastPage = localStorage.getItem("lastPage");\
-                  if (lastPage !== window.location.pathname) {\
-                      collectPageView();\
-                  }\
-                  localStorage.setItem("lastPage", window.location.pathname);\
-              });\
-              async function collectAnchorClick(event, text) {\
-                  event.preventDefault();\
-                  const ANCHOR = event.currentTarget;\
-                  const session_id = sessionStorage.getItem("session_id");\
-                  const source_url = window.location.href;\
-                  const target_url = ANCHOR.href;\
-                  const target_tar = ANCHOR.target || "_self";\
-                  try {\
-                      const response = await fetch(`https://www.analytics.weniv.co.kr/collect/anchor-click`, {\
-                          method: "POST",\
-                          headers: {\
-                              "Content-Type": "application/json",\
-                              "Session-Id": session_id,\
-                          },\
-                          body: JSON.stringify({ source_url, target_url, type: text }),\
-                      });\
-                      if (!response.ok) {\
-                          throw new Error("Network response was not ok");\
-                      }\
-                  } catch (error) {\
-                      console.error("Error:", error);\
-                  } finally {\
-                      window.open(target_url, target_tar);\
-                  }\
-              }\
-              window.addEventListener("load", () => {\
-                  document.querySelectorAll("a").forEach((anchor) => {\
-                      anchor.addEventListener("click", (event) => collectAnchorClick(event, `교육서비스:${anchor.innerText}`));\
-                  });\
-              });\
-            </script>' "$f"
+              <script>\
+                function collectPageView() {\
+                    const this_page_url = window.location.href;\
+                    let session_id = sessionStorage.getItem("session_id");\
+                    if (!session_id) {\
+                        fetch("https://www.analytics.weniv.co.kr/collect/pageview", {\
+                            method: "POST",\
+                            headers: {\
+                                "Content-Type": "application/json",\
+                            },\
+                            body: JSON.stringify({ url: this_page_url }),\
+                        })\
+                            .then((response) => {\
+                                if (!response.ok) {\
+                                    throw new Error("Network response was not ok");\
+                                }\
+                                return response.json();\
+                            })\
+                            .then((data) => {\
+                                sessionStorage.setItem("session_id", data.session_id);\
+                            })\
+                            .catch((error) => console.error("Error:", error));\
+                    }\
+                }\
+                window.addEventListener("load", (e) => {\
+                    const lastPage = localStorage.getItem("lastPage");\
+                    if (lastPage !== window.location.pathname) {\
+                        collectPageView();\
+                    }\
+                    localStorage.setItem("lastPage", window.location.pathname);\
+                });\
+                async function collectAnchorClick(event, text) {\
+                    event.preventDefault();\
+                    const ANCHOR = event.currentTarget;\
+                    const session_id = sessionStorage.getItem("session_id");\
+                    const source_url = window.location.href;\
+                    const target_url = ANCHOR.href;\
+                    const target_tar = ANCHOR.target || "_self";\
+                    try {\
+                        const response = await fetch(`https://www.analytics.weniv.co.kr/collect/anchor-click`, {\
+                            method: "POST",\
+                            headers: {\
+                                "Content-Type": "application/json",\
+                                "Session-Id": session_id,\
+                            },\
+                            body: JSON.stringify({ source_url, target_url, type: text }),\
+                        });\
+                        if (!response.ok) {\
+                            throw new Error("Network response was not ok");\
+                        }\
+                    } catch (error) {\
+                        console.error("Error:", error);\
+                    } finally {\
+                        window.open(target_url, target_tar);\
+                    }\
+                }\
+                window.addEventListener("load", () => {\
+                    document.querySelectorAll("a").forEach((anchor) => {\
+                        anchor.addEventListener("click", (event) => collectAnchorClick(event, `교육서비스:${anchor.innerText}`));\
+                    });\
+                });\
+              </script>\
+              <!-- Open Graph 메타 태그 -->\
+              <meta property="og:type" content="website">\
+              <meta property="og:title" content="Weniv JupyterLite | 위니브 주피터노트북">\
+              <meta property="og:description" content="손쉽게 추첨을 하세요.">\
+              <meta property="og:image" content="https://draw.weniv.co.kr/og-image.png">\
+              <meta property="og:url" content="https://jupyter.weniv.co.kr">\
+              <meta property="og:site_name" content="Weniv JupyterLite">\
+              <!-- Twitter 카드 -->\
+              <meta name="twitter:card" content="summary_large_image">\
+              <meta name="twitter:title" content="위니브 주피터노트북 - 로그인 없는 Python, JavaScript 실행">\
+              <meta name="twitter:description" content="손쉽게 학습 환경을 구축하세요">\
+              <meta name="twitter:image" content="https://draw.weniv.co.kr/og-image.png">\
+              <!-- 추가 메타 태그 -->\
+              <meta name="keywords" content="위니브, weniv, 주피터, 주피터노트북, jupyter">\
+              <meta name="author" content="Weniv">\
+              <meta name="robots" content="index, follow">\
+              <!-- 캐노니컬 URL -->\
+              <link rel="canonical" href="https://jupyter.weniv.co.kr">\
+              <!-- 파비콘 -->\
+              <link rel="icon" type="image/x-icon" href="https://draw.weniv.co.kr/favicon.ico">' "$f"
+
+              # title과 description 수정
+              sed -i 's/<title>JupyterLite<\/title>/<title>Weniv JupyterLite | 위니브 주피터노트북<\/title>/' "$f"
+              sed -i 's/content="WASM powered Jupyter running in the browser."/content="위니브 주피터 노트북입니다. 로그인 없이 Python과 JavaScript가 실행 가능합니다."/' "$f"
           done
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
