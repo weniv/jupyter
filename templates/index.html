@@ -89,8 +89,13 @@
             anchor.addEventListener("click", (event) => collectAnchorClick(event, `교육서비스:${anchor.innerText}`));
         });
     </script>
+    <!-- 기존 코드 로드 -->
+    {# jupyter_lite_config #}
 </head>
 <body>
     <!-- JupyterLite part -->
+    <script id="jupyter-config-data" type="application/json">
+        {# jupyter_lite_config #}
+    </script>
 </body>
 </html>
