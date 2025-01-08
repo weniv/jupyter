@@ -25,8 +25,17 @@ jobs:
         run: |
           cp README.md content
           jupyter lite build --contents content --output-dir dist
+          # dist 디렉토리 구조 확인
+          echo "Checking dist directory structure:"
+          find dist -name "index.html"
+          # 각 index.html 파일 내용의 처음 몇 줄 확인
+          for f in $(find dist -name "index.html"); do
+            echo "Content of $f:"
+            head -n 10 "$f"
+            echo "-------------------"
+          done
           # dist/index.html 파일에 analytics script 추가
-          sed -i '/<head>/a \
+          find dist -name "index.html" -exec sed -i '/<head>/a \
           <script>\
               function collectPageView() {\
                   const this_page_url = window.location.href;\
